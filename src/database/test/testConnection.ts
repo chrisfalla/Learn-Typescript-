@@ -1,4 +1,7 @@
-import pool from './connection';
+import { Pool } from 'pg';
+import { databaseConfig } from '../config/database';
+
+const pool = new Pool(databaseConfig);
 
 const testConnection = async () => {
   console.log('🔍 Probando conexión a Supabase PostgreSQL...\n');
