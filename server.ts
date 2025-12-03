@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import pool from './src/database/test/connection';
+import pool from './src/database/config/connection';
 
 dotenv.config();
 

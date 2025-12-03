@@ -1,27 +1,15 @@
-import { Pool } from 'pg';
-import { databaseConfig } from '../config/database';
+import pool from '../config/connection';
 
-const pool = new Pool(databaseConfig);
-
-const testConnection = async () => {
-  console.log('🔍 Probando conexión a Supabase PostgreSQL...\n');
-  
+async function testConnection() {
   try {
-    const client = await pool.connect();
-    console.log('✅ Conexión establecida exitosamente');
-    
-    const result = await client.query('SELECT NOW(), version()');
-    console.log('📅 Fecha/Hora del servidor:', result.rows[0].now);
-    console.log('🗄️  Versión de PostgreSQL:', result.rows[0].version);
-    
-    client.release();
-    console.log('\n🎉 Test de conexión completado exitosamente');
-  } catch (error) {
-    console.error('\n❌ Error en la conexión:', error);
-    throw error;
-  } finally {
+    const result = await pool.query('SELECT NOW()');
+    console.log('✅ Conexión exitosa a la base de datos');
+    console.log('⏰ Timestamp:', result.rows[0].now);
     await pool.end();
+  } catch (error) {
+    console.error('❌ Error al conectar a la base de datos:', error);
+    process.exit(1);
   }
-};
+}
 
 testConnection();
